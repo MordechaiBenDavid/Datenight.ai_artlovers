@@ -175,17 +175,19 @@
 
     .early-bird-ribbon {
       display: none;
-      position: relative;
-      margin-bottom: 26px;
-      padding: 16px 20px;
-      border-radius: 18px;
-      background: radial-gradient(circle at 20% 20%, rgba(246, 217, 226, 0.85), rgba(253, 247, 248, 0.95) 45%, rgba(255, 255, 255, 0.92));
-      border: 1.5px solid var(--color-accent-soft);
-      box-shadow: 0 18px 45px rgba(76, 42, 42, 0.08), 0 8px 20px rgba(200, 70, 108, 0.12);
+      position: fixed;
+      top: 0;
+      right: -40px;
+      width: 252px;
+      height: 252px;
+      padding: 0;
+      border-radius: 12px;
+      background: url("early_bird_special.png") center/contain no-repeat;
+      border: none;
+      box-shadow: none;
       overflow: hidden;
-      align-items: center;
-      gap: 12px;
-      color: var(--color-ink-main);
+      transform: rotate(12deg);
+      z-index: 1000;
     }
 
     .early-bird-ribbon::before {
@@ -200,19 +202,11 @@
     }
 
     .early-bird-ribbon__dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--color-accent);
-      box-shadow: 0 0 0 6px rgba(200, 70, 108, 0.12);
-      flex-shrink: 0;
+      display: none;
     }
 
     .early-bird-ribbon__text {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 4px;
+      display: none;
     }
 
     .early-bird-title {
@@ -666,6 +660,16 @@
         max-width: 260px;
         height: 240px;
       }
+
+      .early-bird-ribbon {
+        position: absolute;
+        top: 10px;
+        right: -28px;
+        width: 175px;
+        height: 175px;
+        transform: rotate(10deg);
+        z-index: 5;
+      }
     }
 
     @media (max-width: 640px) {
@@ -680,8 +684,8 @@
 
       .early-bird-ribbon {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+        align-items: center;
+        gap: 6px;
       }
 
       form {
@@ -1060,18 +1064,10 @@
       }
 
       earlyBirdRibbon.style.display = "flex";
-
-      if (now >= lastDayStart) {
-        earlyBirdRibbon.classList.add("is-last-day");
-        earlyBirdMessage.textContent = `Early Bird Special ends tonight! Only $${EARLY_BIRD_PRICE} until ${deadlineTime}.`;
-        earlyBirdSubtext.textContent = `Price increases to $${REGULAR_PRICE} after the deadline.`;
-        earlyBirdRibbon.setAttribute("aria-label", `Early Bird Special ends tonight. Only ${EARLY_BIRD_PRICE} dollars until ${deadlineTime}.`);
-      } else {
-        earlyBirdRibbon.classList.remove("is-last-day");
-        earlyBirdMessage.textContent = `Early Bird: $${EARLY_BIRD_PRICE} · Goes up to $${REGULAR_PRICE} on ${formatDeadline(deadline)}`;
-        earlyBirdSubtext.textContent = "Reserve your spot before prices rise.";
-        earlyBirdRibbon.setAttribute("aria-label", `Early Bird is active. Current price twenty dollars until ${formatDeadline(deadline)}.`);
-      }
+      earlyBirdRibbon.classList.remove("is-last-day");
+      earlyBirdMessage.textContent = "Early bird special is still available";
+      earlyBirdSubtext.textContent = "";
+      earlyBirdRibbon.setAttribute("aria-label", "Early bird special is still available.");
     }
 
     updateEarlyBirdRibbon();
