@@ -173,20 +173,65 @@
       z-index: 1;
     }
 
-    .early-bird-banner {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      background: var(--color-accent);
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 32px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      box-shadow: 0 12px 24px rgba(200, 70, 108, 0.3);
-      z-index: 5;
-      transform: rotate(4deg);
+    .early-bird-ribbon {
       display: none;
+      position: relative;
+      margin-bottom: 26px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 20% 20%, rgba(246, 217, 226, 0.85), rgba(253, 247, 248, 0.95) 45%, rgba(255, 255, 255, 0.92));
+      border: 1.5px solid var(--color-accent-soft);
+      box-shadow: 0 18px 45px rgba(76, 42, 42, 0.08), 0 8px 20px rgba(200, 70, 108, 0.12);
+      overflow: hidden;
+      align-items: center;
+      gap: 12px;
+      color: var(--color-ink-main);
+    }
+
+    .early-bird-ribbon::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 30%, rgba(200, 70, 108, 0.08), transparent 40%),
+        radial-gradient(circle at 30% 80%, rgba(246, 217, 226, 0.35), transparent 45%);
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      opacity: 0.9;
+    }
+
+    .early-bird-ribbon__dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      box-shadow: 0 0 0 6px rgba(200, 70, 108, 0.12);
+      flex-shrink: 0;
+    }
+
+    .early-bird-ribbon__text {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 4px;
+    }
+
+    .early-bird-title {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .early-bird-subtext {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 0.96rem;
+      color: var(--color-ink-soft);
+    }
+
+    .early-bird-ribbon.is-last-day {
+      border-color: var(--color-accent);
+      box-shadow: 0 22px 48px rgba(200, 70, 108, 0.18);
+      background: radial-gradient(circle at 25% 25%, rgba(246, 217, 226, 0.92), rgba(200, 70, 108, 0.08) 55%, rgba(253, 247, 248, 0.95));
     }
 
     .countdown-timer {
@@ -326,9 +371,9 @@
     textarea {
       width: 100%;
       border-radius: 14px;
-      border: 1px solid var(--color-card-border);
+      border: 1.5px solid var(--color-accent-soft);
       padding: 14px 16px;
-      background: #f7eff1;
+      background: radial-gradient(circle at 20% 20%, rgba(246, 217, 226, 0.9), rgba(253, 247, 248, 0.95) 45%, rgba(255, 255, 255, 0.92));
       font: inherit;
       color: var(--color-ink-main);
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -361,31 +406,153 @@
       min-height: 220px;
     }
 
+    section:nth-of-type(3) .cards-grid .card {
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
     .testimonials {
       margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slider-wrapper {
+      position: relative;
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 0 90px;
+    }
+
+    .slider-wrapper .testimonial-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #ddd;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-wrapper .testimonial-nav--left {
+      left: 25px;
+    }
+
+    .slider-wrapper .testimonial-nav--right {
+      right: 25px;
+    }
+
+    .slider-wrapper .testimonial-nav::before {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+
+    .testimonial-nav--left::before {
+      border-width: 10px 12px 10px 0;
+      border-color: transparent var(--color-accent) transparent transparent;
+      margin-left: 2px;
+    }
+
+    .testimonial-nav--right::before {
+      border-width: 10px 0 10px 12px;
+      border-color: transparent transparent transparent var(--color-accent);
+      margin-right: 2px;
     }
 
     .testimonial-scroller {
       display: flex;
-      gap: 24px;
+      gap: 28px;
       overflow-x: auto;
-      padding-bottom: 8px;
-      scrollbar-width: thin;
+      scroll-behavior: smooth;
+      padding: 25px 10px;
+      mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 80px,
+        black calc(100% - 80px),
+        transparent
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 80px,
+        black calc(100% - 80px),
+        transparent
+      );
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .testimonial-scroller::-webkit-scrollbar {
+      display: none;
     }
 
     .testimonial-card {
-      min-width: 280px;
-      background: var(--color-card-bg);
-      border-radius: 22px;
-      border: 1.5px solid var(--color-card-border);
-      padding: 28px;
-      box-shadow: 0 14px 32px rgba(76, 42, 42, 0.12);
+      min-width: 300px;
+      max-width: 300px;
+      height: 260px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .testimonial-card p {
+      margin: 0 0 16px 0;
+      color: #333;
+      font-size: 16.5px;
+      line-height: 1.45;
     }
 
     .testimonial-card strong {
-      display: block;
-      margin-top: 18px;
+      font-size: 17px;
+      color: #4a2a2a;
+      font-weight: 700;
+    }
+
+    .testimonial-dropdown {
+      display: none;
+      margin-top: 16px;
+      border: 1.5px solid var(--color-card-border);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(76, 42, 42, 0.08);
+      padding: 12px 14px;
+    }
+
+    .testimonial-dropdown summary {
+      cursor: pointer;
+      font-weight: 700;
       color: var(--color-ink-main);
+      outline: none;
+    }
+
+    .testimonial-dropdown[open] summary {
+      margin-bottom: 12px;
+    }
+
+    .testimonial-dropdown-list {
+      display: grid;
+      gap: 14px;
     }
 
     .partners-card {
@@ -442,25 +609,79 @@
     @media (max-width: 900px) {
       .hero {
         flex-direction: column;
+        gap: 28px;
+        text-align: center;
       }
 
       .hero__image {
         order: 2;
+        width: 100%;
+        max-width: 560px;
+        margin: 0 auto;
       }
 
       .hero__content {
         order: 1;
+        width: 100%;
       }
 
       .form-card,
       .story-card {
         padding: 28px;
       }
+
+      .page {
+        padding: 28px 20px 64px;
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      .slider-wrapper {
+        max-width: 100%;
+        padding: 0 56px;
+      }
+
+      .slider-wrapper .testimonial-nav {
+        width: 38px;
+        height: 38px;
+      }
+
+      .slider-wrapper .testimonial-nav--left {
+        left: 12px;
+      }
+
+      .slider-wrapper .testimonial-nav--right {
+        right: 12px;
+      }
+
+      .testimonial-scroller {
+        gap: 22px;
+        padding: 22px 10px;
+      }
+
+      .testimonial-card {
+        min-width: 260px;
+        max-width: 260px;
+        height: 240px;
+      }
     }
 
     @media (max-width: 640px) {
       .page {
         padding: 24px 18px 48px;
+      }
+
+      body {
+        background-position: left center;
+        background-size: 200% 100%;
+      }
+
+      .early-bird-ribbon {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
 
       form {
@@ -470,6 +691,75 @@
       .hero__actions,
       .full-width .submit-row {
         width: 100%;
+      }
+
+      .hero {
+        align-items: center;
+      }
+
+      .hero__content,
+      .hero__actions,
+      .hero__meta,
+      .section__intro,
+      .cards-grid {
+        text-align: center;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        justify-items: center;
+      }
+
+      .slider-wrapper {
+        padding: 0 44px;
+      }
+
+      .slider-wrapper .testimonial-nav {
+        width: 34px;
+        height: 34px;
+      }
+
+      .slider-wrapper .testimonial-nav--left {
+        left: 6px;
+      }
+
+      .slider-wrapper .testimonial-nav--right {
+        right: 6px;
+      }
+
+      .testimonial-scroller {
+        gap: 16px;
+        padding: 16px 8px;
+      }
+
+      .testimonial-card {
+        min-width: 220px;
+        max-width: 220px;
+        height: auto;
+      }
+
+      .slider-wrapper {
+        display: none;
+      }
+
+      .testimonial-dropdown {
+        display: block;
+      }
+
+      .testimonial-dropdown .testimonial-card {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        height: auto;
+      }
+
+      .testimonials {
+        background: transparent;
+      }
+
+      .testimonials::before {
+        display: none;
       }
     }
   </style>
@@ -481,6 +771,13 @@
         <img src="https://datenightai-static.s3.us-east-2.amazonaws.com/static/images/partners/artlovers-logo.png" alt="Art Lovers Logo">
         <img src="https://datenightai-static.s3.us-east-2.amazonaws.com/static/images/logos/DN-Icon-LightBG-web.png" alt="DateNight Logo">
       </div>
+      <aside id="earlyBirdRibbon" class="early-bird-ribbon" role="status" aria-live="polite" aria-label="Early bird special announcement">
+        <span class="early-bird-ribbon__dot" aria-hidden="true"></span>
+        <div class="early-bird-ribbon__text">
+          <span id="earlyBirdMessage" class="early-bird-title"></span>
+          <span id="earlyBirdSubtext" class="early-bird-subtext"></span>
+        </div>
+      </aside>
       <div class="hero">
         <div class="hero__content">
           <p class="hero__tagline">Virtual speed dating for art lovers</p>
@@ -490,11 +787,10 @@
             <a class="btn" href="#startNow">Register Now</a>
             <a class="btn btn-secondary" href="#faq">Explore FAQs</a>
           </div>
-          <p class="hero__meta">Monday, Dec. 1 · 9pm ET / 6pm PT · Hosted online</p>
+          <p class="hero__meta">Saturday, Feb. 14 · 9pm ET / 6pm PT · Hosted online</p>
           <div class="countdown-timer" id="countdownText">Countdown loading…</div>
         </div>
         <div class="hero__image">
-          <span id="earlyBirdBanner" class="early-bird-banner"></span>
           <img src="header.png" alt="Artistically illustrated couple">
         </div>
       </div>
@@ -508,10 +804,10 @@
             <p>We’ll ask about your age, location, and what moves you. Then our DateNight AI hosts handle the matching so you can show up relaxed and excited.</p>
           </div>
           <ul>
-            <li><strong>Date:</strong> Monday, Dec. 1</li>
+            <li><strong>Date:</strong> Saturday, Feb. 14</li>
             <li><strong>Time:</strong> 9pm Eastern / 6pm Pacific</li>
             <li><strong>Location:</strong> Online via DateNight</li>
-            <li><strong>Price:</strong> $20 (goes up to $25 on Thursday, Nov. 27 @ 11pm)</li>
+            <li><strong>Price:</strong> $20 (goes up to $25 on Tuesday, Feb. 10 @ 11pm)</li>
           </ul>
           <p>Once registered, you’ll receive reminders, prep prompts, and your personalized schedule a few hours before the event. Then simply join, date, and let us know who you’d love to see again.</p>
         </div>
@@ -589,28 +885,57 @@
         <h2>Love Notes from Recent Events</h2>
         <p>What attendees say after an hour of intentional connection.</p>
       </div>
-      <div class="testimonial-scroller">
-        <article class="testimonial-card">
-          <p>"This was amazing! Truly... I had low expectations, but you matched me with lovely people from all over the country."</p>
-          <strong>Matt K.</strong>
-        </article>
-        <article class="testimonial-card">
-          <p>"The event is well-organized and super easy to sign up. The length of dates is just right, and it’s great meeting people you otherwise wouldn’t."</p>
-          <strong>Michelle B.</strong>
-        </article>
-        <article class="testimonial-card">
-          <p>"The team took my preferences seriously and matched me accordingly with quality people. Thoughtful and intentional."</p>
-          <strong>Paige S.</strong>
-        </article>
-        <article class="testimonial-card">
-          <p>"A really nice change from the dating apps. The prompts helped us dive right into real conversation."</p>
-          <strong>Elizabeth F.</strong>
-        </article>
-        <article class="testimonial-card">
-          <p>"Great platform! Great way to meet people that have similar values to me."</p>
-          <strong>Tara H.</strong>
-        </article>
+      <div class="slider-wrapper">
+        <button class="testimonial-nav testimonial-nav--left" aria-label="Scroll testimonials left" type="button"></button>
+        <button class="testimonial-nav testimonial-nav--right" aria-label="Scroll testimonials right" type="button"></button>
+        <div class="testimonial-scroller">
+          <article class="testimonial-card">
+            <p>"This was amazing! Truly... I had low expectations, but you matched me with lovely people from all over the country."</p>
+            <strong>Matt K.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"The event is well-organized and super easy to sign up. The length of dates is just right, and it’s great meeting people you otherwise wouldn’t."</p>
+            <strong>Michelle B.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"The team took my preferences seriously and matched me accordingly with quality people. Thoughtful and intentional."</p>
+            <strong>Paige S.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"A really nice change from the dating apps. The prompts helped us dive right into real conversation."</p>
+            <strong>Elizabeth F.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"Great platform! Great way to meet people that have similar values to me."</p>
+            <strong>Tara H.</strong>
+          </article>
+        </div>
       </div>
+      <details class="testimonial-dropdown">
+        <summary>View testimonials</summary>
+        <div class="testimonial-dropdown-list">
+          <article class="testimonial-card">
+            <p>"This was amazing! Truly... I had low expectations, but you matched me with lovely people from all over the country."</p>
+            <strong>Matt K.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"The event is well-organized and super easy to sign up. The length of dates is just right, and it’s great meeting people you otherwise wouldn’t."</p>
+            <strong>Michelle B.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"The team took my preferences seriously and matched me accordingly with quality people. Thoughtful and intentional."</p>
+            <strong>Paige S.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"A really nice change from the dating apps. The prompts helped us dive right into real conversation."</p>
+            <strong>Elizabeth F.</strong>
+          </article>
+          <article class="testimonial-card">
+            <p>"Great platform! Great way to meet people that have similar values to me."</p>
+            <strong>Tara H.</strong>
+          </article>
+        </div>
+      </details>
     </section>
 
     <section>
@@ -662,11 +987,11 @@
 
   <script>
     const countdownText = document.getElementById("countdownText");
-    const eventDate = new Date("Dec 01, 2025 21:00:00 EST").getTime();
+    const eventDate = new Date("2026-02-14T21:00:00");
 
     function updateCountdown() {
       const now = new Date().getTime();
-      const distance = eventDate - now;
+      const distance = eventDate.getTime() - now;
 
       if (!countdownText) return;
 
@@ -685,26 +1010,107 @@
     updateCountdown();
     setInterval(updateCountdown, 60 * 60 * 1000);
 
-    const earlyBirdBanner = document.getElementById("earlyBirdBanner");
-    const earlyBirdDate = new Date("Nov 27, 2025 23:00:00 EST").getTime();
+    const earlyBirdRibbon = document.getElementById("earlyBirdRibbon");
+    const earlyBirdMessage = document.getElementById("earlyBirdMessage");
+    const earlyBirdSubtext = document.getElementById("earlyBirdSubtext");
 
-    function updateEarlyBird() {
-      if (!earlyBirdBanner) return;
-      const now = new Date().getTime();
-      const distance = earlyBirdDate - now;
+    const EARLY_BIRD_PRICE = 20;
+    const REGULAR_PRICE = 25;
 
-      if (distance > 0) {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        earlyBirdBanner.style.display = "inline-flex";
-        earlyBirdBanner.textContent = days === 0
-          ? "Early bird ends today!"
-          : `Early bird ends in ${days} day${days === 1 ? "" : "s"}`;
+    function getEarlyBirdDeadline(baseEventDate) {
+      const deadline = new Date(baseEventDate);
+      deadline.setDate(deadline.getDate() - 4);
+      deadline.setHours(23, 0, 0, 0);
+      return deadline;
+    }
+
+    function getLastDayStart(deadline) {
+      const start = new Date(deadline);
+      start.setHours(0, 0, 0, 0);
+      return start;
+    }
+
+    function formatDeadline(deadline) {
+      const dayPart = deadline.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric"
+      });
+      const timePart = deadline.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit"
+      });
+      return `${dayPart} at ${timePart}`;
+    }
+
+    function updateEarlyBirdRibbon() {
+      if (!earlyBirdRibbon || !earlyBirdMessage || !earlyBirdSubtext) return;
+
+      const now = new Date();
+      const deadline = getEarlyBirdDeadline(eventDate);
+      const lastDayStart = getLastDayStart(deadline);
+      const deadlineTime = deadline.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit"
+      });
+
+      if (now >= deadline) {
+        earlyBirdRibbon.style.display = "none";
+        return;
+      }
+
+      earlyBirdRibbon.style.display = "flex";
+
+      if (now >= lastDayStart) {
+        earlyBirdRibbon.classList.add("is-last-day");
+        earlyBirdMessage.textContent = `Early Bird Special ends tonight! Only $${EARLY_BIRD_PRICE} until ${deadlineTime}.`;
+        earlyBirdSubtext.textContent = `Price increases to $${REGULAR_PRICE} after the deadline.`;
+        earlyBirdRibbon.setAttribute("aria-label", `Early Bird Special ends tonight. Only ${EARLY_BIRD_PRICE} dollars until ${deadlineTime}.`);
       } else {
-        earlyBirdBanner.style.display = "none";
+        earlyBirdRibbon.classList.remove("is-last-day");
+        earlyBirdMessage.textContent = `Early Bird: $${EARLY_BIRD_PRICE} · Goes up to $${REGULAR_PRICE} on ${formatDeadline(deadline)}`;
+        earlyBirdSubtext.textContent = "Reserve your spot before prices rise.";
+        earlyBirdRibbon.setAttribute("aria-label", `Early Bird is active. Current price twenty dollars until ${formatDeadline(deadline)}.`);
       }
     }
 
-    updateEarlyBird();
+    updateEarlyBirdRibbon();
+    setInterval(updateEarlyBirdRibbon, 30 * 60 * 1000);
+
+    const testimonialScroller = document.querySelector(".testimonial-scroller");
+    const testimonialNavLeft = document.querySelector(".testimonial-nav--left");
+    const testimonialNavRight = document.querySelector(".testimonial-nav--right");
+    let testimonialScrollInterval = null;
+
+    function startTestimonialScroll(direction, step = 4) {
+      if (!testimonialScroller) return;
+      stopTestimonialScroll();
+      testimonialScrollInterval = setInterval(() => {
+        testimonialScroller.scrollBy({ left: direction * step, behavior: "auto" });
+      }, 16);
+    }
+
+    function stopTestimonialScroll() {
+      if (testimonialScrollInterval) {
+        clearInterval(testimonialScrollInterval);
+        testimonialScrollInterval = null;
+      }
+    }
+
+    if (testimonialScroller && testimonialNavLeft && testimonialNavRight) {
+      [
+        [testimonialNavLeft, -1],
+        [testimonialNavRight, 1],
+      ].forEach(([btn, dir]) => {
+        btn.addEventListener("mouseenter", () => startTestimonialScroll(dir, 4));
+        btn.addEventListener("mouseleave", stopTestimonialScroll);
+        btn.addEventListener("focus", () => startTestimonialScroll(dir, 4));
+        btn.addEventListener("blur", stopTestimonialScroll);
+        btn.addEventListener("mousedown", () => startTestimonialScroll(dir, 8));
+        btn.addEventListener("mouseup", stopTestimonialScroll);
+        btn.addEventListener("click", () => startTestimonialScroll(dir, 8));
+      });
+    }
 
     const heroSection = document.querySelector(".hero-section");
     const fixedRegisterBtn = document.getElementById("fixedRegisterBtn");
